@@ -19,7 +19,7 @@ class Custom {
   Custom._();
 
   static const _kFontFam = 'Custom';
-  static const String _kFontPkg = null;
+  static const Null _kFontPkg = null;
 
   static const IconData instagram_reels =
       IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);

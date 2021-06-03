@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
+import '../Screens/message_screen.dart';
 import 'package:insta_clone/widget/feed.dart';
 import '../custom_icons.dart';
 
@@ -10,6 +12,7 @@ class InstaFeedScreen extends StatefulWidget {
 }
 
 class _InstaFeedScreenState extends State<InstaFeedScreen> {
+  final PageController pg = PageController(initialPage: 1);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +28,13 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
           actions: [
             IconButton(
                 icon: Icon(FontAwesomeIcons.facebookMessenger),
-                onPressed: () {})
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: MsgScreen()));
+                })
           ],
         ),
         body: SingleChildScrollView(
@@ -42,7 +51,7 @@ class _InstaFeedScreenState extends State<InstaFeedScreen> {
               Container(
                 margin: EdgeInsets.only(left: 5),
                 child: Icon(
-                  Icons.home_outlined,
+                  Icons.home,
                   color: Colors.white,
                   size: 30,
                 ),

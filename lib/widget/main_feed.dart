@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:insta_clone/widget/feed_circle.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_controls.dart';
 
 class MainFeed extends StatefulWidget {
   final String name;
@@ -13,12 +14,7 @@ class MainFeed extends StatefulWidget {
 
 class _MainFeedState extends State<MainFeed> {
   bool _isliked = false;
-  void updateheart() {
-    setState(() {
-      _isliked = !_isliked;
-    });
-  }
-
+  final FlareControls flarecontrol = FlareControls();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,17 +44,38 @@ class _MainFeedState extends State<MainFeed> {
             ),
           ),
           GestureDetector(
-            onDoubleTap: updateheart,
-            child: Container(
-              height: 320,
-              child: Image.asset(
-                widget.imgurl,
-                height: 320,
-                width: 400,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
+              onDoubleTap: () {
+                setState(() {
+                  _isliked = true;
+                });
+                flarecontrol.play("like");
+              },
+              child: Stack(alignment: Alignment.center, children: [
+                Container(
+                  height: 320,
+                  child: Image.asset(
+                    widget.imgurl,
+                    height: 320,
+                    width: 400,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 250,
+                  child: Center(
+                    child: SizedBox(
+                      width: 80,
+                      height: 80,
+                      child: FlareActor(
+                        'assets/instagram_like.flr',
+                        controller: flarecontrol,
+                        animation: 'idle',
+                      ),
+                    ),
+                  ),
+                ),
+              ])),
           SizedBox(
             height: 3,
           ),
@@ -67,10 +84,14 @@ class _MainFeedState extends State<MainFeed> {
               Expanded(
                 child: Container(
                   width: 20,
-                  padding: const EdgeInsets.all(7.0),
+                  padding: const EdgeInsets.only(left: 2.0),
                   child: IconButton(
                     iconSize: 24,
-                    onPressed: updateheart,
+                    onPressed: () {
+                      setState(() {
+                        _isliked = !_isliked;
+                      });
+                    },
                     icon: _isliked
                         ? Icon(Icons.favorite)
                         : Icon(Icons.favorite_border_outlined),
@@ -79,7 +100,7 @@ class _MainFeedState extends State<MainFeed> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(7.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Icon(
                   FontAwesomeIcons.comment,
                   size: 20,
@@ -87,7 +108,7 @@ class _MainFeedState extends State<MainFeed> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(6.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Icon(
                   FontAwesomeIcons.paperPlane,
                   size: 20,
